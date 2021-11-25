@@ -1,0 +1,19 @@
+{
+  "name": "roslagen-smycken-v2",
+  "version": "1.0.0",
+  "description": "The Node.js package for the Roslagen Smycken Website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B-andir/roslagen-smycken-v2.git"
+  },
+  "author": "Daniel Svenberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/B-andir/roslagen-smycken-v2/issues"
+  },
+  "homepage": "https://github.com/B-andir/roslagen-smycken-v2#readme"
+}
