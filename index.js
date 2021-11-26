@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 
 const PORT = process.env.PORT != null ? process.env.PORT : 5100;

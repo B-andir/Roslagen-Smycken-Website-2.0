@@ -1,0 +1,15 @@
+@import 'colors';
+
+body {
+    background-color: $whiteIsh;
+    margin: 0;
+
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .darkMode {
+        background-color: $darkGreyBlue;
+    }
+}
