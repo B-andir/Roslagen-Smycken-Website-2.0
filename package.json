@@ -4,12 +4,8 @@
   "description": "The Node.js package for the Roslagen Smycken Website",
   "main": "index.js",
   "scripts": {
-    "devserver": "nodemon index.js",
-    "devimages": "nodemon imageServer.js",
-    "server": "node index.js",
-    "images": "node imageServer.js",
-    "dev": "concurrently \"npm run devserver\" \"npm run devimages\"",
-    "start": "concurrently \"npm run server\" \"npm run images\""
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +21,6 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "concurrently": "^6.4.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",

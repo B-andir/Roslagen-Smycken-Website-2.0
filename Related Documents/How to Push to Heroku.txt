@@ -1,0 +1,9 @@
+E:
+
+cd E:\Hemsida\roslagen-smycken
+
+git add .
+
+git commit -m "Commit message"
+
+git push https://heroku:d41f004d-d448-46b5-8013-189ed9c2d642@git.heroku.com/roslagen-smycken.git HEAD:master
