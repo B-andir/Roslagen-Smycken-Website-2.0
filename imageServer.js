@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
 
-const PORT = 5101;
+const PORT = (process.env.PORT + 1);
 
 const app = express();
 
