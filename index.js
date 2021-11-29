@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const mysql = require('mysql');
 
 require('dotenv').config();
 
@@ -23,20 +22,10 @@ app.use(session({
 
 app.set('view engine', 'ejs');
 
-
 app.use(morgan('dev'));
 
-var con = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD
-});
-
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("MySQL Database Connected")
-    con.destroy();
-})
+// API Calls
+app.use('/api', require('./middleware/api.js'));
 
 // route to requested page
 app.use('/', require('./routes/routing.js'));
