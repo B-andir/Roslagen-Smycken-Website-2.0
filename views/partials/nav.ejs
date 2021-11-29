@@ -1,10 +1,12 @@
 <nav>
-    <a href="/"><img src="./images/RoundImagePlaceholder.png"></a>
-    <ul>
+    <div id="navFlexContainer">
+        <a href="/"><img id="rs-logo" src="./images/Logo.png"></a>
 
-    </ul>
+        <div id="navOptions">
+            <a class="navButton" href="/order"><button>Order</button></a>
+        </div>
 
-    <script src="./scripts/toggleDarkMode.js"></script>
-    <button id="darkmodeToggle" onclick="toggleDarkMode()">Toggle DarkMode</button>
-    
+        <script src="./scripts/toggleDarkMode.js"></script>
+        <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="./images/darkmodeButton.png">
+    </div>
 </nav>
