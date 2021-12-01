@@ -9,12 +9,18 @@
 
     <main>
         <form method="post" enctype="multipart/form-data" action="/api/build/upload" class="my-form">
+            <label for="kind">Kind</label>
+            <input type="text" id="kind" placeholder="Jewelry Kind | Bracelet" name="kind" required>
+            <label for="pattern">Pattern</label>
+            <input type="text" id="pattern" placeholder="Jewelry Pattern | Byzantine" name="pattern" required>
             <label for="title">Title</label>
             <input type="text" id="title" placeholder="Information | 0.8mm wire... :" name="title" required>
             <label for="body">Body</label>
             <input type="text" id="body" placeholder="Description | Loose chain... :" name="body" required>
+            <label for="estimatedPriceKr">Estimated Price in Kr</label>
+            <input type="number" id="estimatedPriceKr" name="estimatedPriceKr" required>
             <label for="image">Product image</label>
-            <input type="file" id="image" name="image" required>
+            <input type="file" multiple id="image" name="image" required>
             <input type="submit" value="Submit">
         </form>
     </main>
