@@ -16,7 +16,7 @@ router.get('/order/admin/build', (req, res) => {
 
 
 // 404 page
-router.get((req, res) => {
+router.get('*',(req, res) => {
     res
         .status(404)
         .render('404');

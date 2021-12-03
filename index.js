@@ -25,7 +25,9 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
 // API Calls
-app.use('/api', require('./middleware/api.js'));
+app.use('/api', (require('./middleware/api.js')));
+
+app.use('/', (require('./middleware/userHandling.js')));
 
 // route to requested page
 app.use('/', require('./routes/routing.js'));

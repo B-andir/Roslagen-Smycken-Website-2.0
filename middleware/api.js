@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,7 +24,6 @@ const handleError = (err, res) => {
 router.post('/build/upload', upload.array('image', 8), (req, res) => {
     let imageURLs = [];
 
-    console.log(req.files);
     productModel.findOne({ title: req.body.title }, async (err, product) => {
         if (!err && !product) {
             let length = req.files.length;
@@ -44,18 +42,16 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                 } else {
                     fs.unlinkSync(tempPath, err => {
                         if (err) return handleError(err, res);
-
                         console.log(`Error: Only .png and .jpg allowed! [Image ${i}]`);
+                        
                     });
                 }
 
-                if (i == length - 1){
-                    let kind = req.body.kind.toLowerCase(), pattern = req.body.pattern.toLowerCase(), title = req.body.title;
+                if (i == length - 1) {
                     const product = await productModel.create({ 
-                        kind: kind, 
-                        pattern: pattern, 
-                        title: title, 
-                        url: (`${kind}/${pattern}/${title}/`), 
+                        kind: req.body.kind.toLowerCase(), 
+                        pattern: req.body.pattern.toLowerCase(), 
+                        title: req.body.title,
                         description: req.body.description, 
                         estimatedPriceKr: req.body.estimatedPriceKr, 
                         images: imageURLs
@@ -64,7 +60,7 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
             
                         console.log("Created new product!");
             
-                        res.redirect(('/products/' + product.url));
+                        res.redirect(('/products/?id=' + product._id));
                     });
                 }
             }

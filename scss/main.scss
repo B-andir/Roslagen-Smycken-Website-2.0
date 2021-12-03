@@ -20,6 +20,29 @@ body {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            #navOptions {
+                width: 56%;
+                height: inherit;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .navButton {
+                    height: 80%;
+                    width: fill;
+
+                    button {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
+
+            #loginMenu {
+                position: absolute;
+            }
         }
 
         #darkmodeToggle {
