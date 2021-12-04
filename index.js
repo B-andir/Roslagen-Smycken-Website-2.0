@@ -27,7 +27,7 @@ app.use(morgan('dev'));
 // API Calls
 app.use('/api', (require('./middleware/api.js')));
 
-app.use('/', (require('./middleware/userHandling.js')));
+app.use('/', (require('./middleware/checkCookies.js')));
 
 // route to requested page
 app.use('/', require('./routes/routing.js'));

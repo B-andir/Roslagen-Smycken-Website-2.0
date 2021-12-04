@@ -8,12 +8,19 @@
             <a class="navButton" href="/about"><button>About</button></a>
         </div>
 
-        <div id="loginMenu">
-            <button>Login</button>
-            <button>Register</button>
-        </div>
-
         <script src="/scripts/toggleDarkMode.js"></script>
         <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="/images/darkmodeButton.png">
+
+        <div id="accountDropdown">
+            <div id="loginMenu">
+                <button onclick="TogglePopup('#loginScreen')">Login</button>
+                <button onclick="TogglePopup('#registerScreen')">Register</button>
+            </div>
+            <div id="dropdownFlap">
+                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()"><p>V</p></button>
+            </div>
+        </div>
     </div>
 </nav>
+
+<%- include('./accountDropdown.ejs') %> 

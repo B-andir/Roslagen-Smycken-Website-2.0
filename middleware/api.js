@@ -2,17 +2,51 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const mongoose = require('mongoose');
+const validator = require('email-validator');
+const bcrypt = require('bcrypt');
+const { v4 : uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 
-require('dotenv').config();
-
 const upload = multer({dest: "uploads/"});
-
-const productModel = require('../models/product');
 const { url } = require('inspector');
 
+const productModel = require('../models/product');
+const userModel = require('../models/user');
+
+require('dotenv').config();
+
+const saltRounds = 16;
+
 mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true });
+
+function GenerateLoginCookie(user) {
+
+}
+
+router.post('/register', async (req, res) => {
+    
+    if (validator.validate(req.body.email)) {
+
+    } else {
+        res.json({error: 'Invalid Email address.'});
+        return;
+    }
+
+    res.json('Error! Function not complete');  // Error message displayed without reloading page
+});
+
+router.post('/login', (req, res) => {
+    console.log(req);
+    // res.locals.test = true;
+    // res
+    //     .redirect(req.body.sourceURL);
+    // res.json('Error! Funtion not complete')  // Error message displayed without reloading page
+    // res.json({error: 'Error! Function not complete'})
+    res.cookie('testing', true);
+    res.send();
+});
 
 const handleError = (err, res) => {
     res

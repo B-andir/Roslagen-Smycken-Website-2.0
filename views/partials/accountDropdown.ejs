@@ -1,0 +1,33 @@
+<div id="backgroundBlur" onclick="HidePopups(), ToggleAccountDropdown()"></div>
+
+<div class="accountPopup" id="loginScreen">
+    <form id="loginForm" method="post" action="api/login">
+        <h1>Login</h1>
+        <input type="email" id="emailLogin" placeholder="Email" name="email" required>
+        <input type="password" id="passwordLogin" placeholder="Password" name="password" required>
+        <p id="errorMessageLogin"></p>
+        <div id="keepLoggedInContainer">
+            <label>Remember me</label>
+            <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
+        </div>
+    </form>
+    <button onclick="Login()">Login</button>
+</div>
+
+<div class="accountPopup" id="registerScreen">
+    <form id="registerForm" method="post" action="api/register">
+        <h1>Register</h1>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="First Name" name="firstName" required>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Last Name" name="lastName" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="example@email.com" name="email" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="********" name="password" required>
+        <label for="passwordRepeated">Repeat Password</label>
+        <input type="password" id="passwordRepeated" placeholder="********" name="passwordRepeated" required>
+        <p id="errorMessageRegister"></p>
+    </form>
+    <button onclick="Register()">Register</button>
+</div>

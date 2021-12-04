@@ -7,10 +7,9 @@ const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 router.use('/', (req, res, next) => {
-    console.log("userHandling.js")
-    res.locals.user = {
-        'username': ''
-    };
+    // res.locals.user = {
+    //     'username': ''
+    // };
 
     next();
 });
