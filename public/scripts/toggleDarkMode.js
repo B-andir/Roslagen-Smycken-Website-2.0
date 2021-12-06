@@ -26,7 +26,7 @@ function ToggleDarkMode() {
     } else {
         // Set Dark Mode
         element.classList.add("darkMode");
-        document.cookie = "darkMode=true; path=/";
+        document.cookie = "darkMode=true; max-age=" + (60 * 60 * 24 * 365) + "; path=/";  // Max-age = 1 year
         currentRotation += 180;
     }
 

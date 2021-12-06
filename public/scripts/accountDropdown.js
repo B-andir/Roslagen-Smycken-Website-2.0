@@ -1,7 +1,6 @@
 let isDown = false;
 
 function HidePopups() {
-    document.querySelector("#loginScreen").style.display = 'none';
     document.querySelector("#registerScreen").style.display = 'none';
     document.querySelector("#backgroundBlur").style.display = 'none';
 }
@@ -9,8 +8,7 @@ function HidePopups() {
 function ToggleAccountDropdown() {
     let element = document.querySelector("#accountDropdown");
 
-    document.querySelector("#dropdownToggleButton").style.transform = 'rotate(' + (isDown ? 0 : 180) + 'deg';
-    element.style.top = isDown ? '-122' : '-1';
+    element.style.top = isDown ? ('-' + $("#accountDropdown").outerHeight()) : '-1';
     element.style.boxShadow = isDown ? '' : '1px 1px 8px black';
 
     if (isDown) {
@@ -21,7 +19,6 @@ function ToggleAccountDropdown() {
 }
 
 function TogglePopup(target) {
-    document.querySelector("#loginScreen").style.display = 'none';
     document.querySelector("#registerScreen").style.display = 'none';
     let loginScreen = document.querySelector(target).style;
     let blurBackground = document.querySelector("#backgroundBlur").style;
@@ -34,15 +31,19 @@ function Login() {
 
     if (loginForm.email.value.length != 0 && loginForm.password.value.length != 0) {
         if (loginForm.email.value.includes('@')) {
+            let logoElement = document.getElementById("rs-logo");
+            let originalImageSource = logoElement.src;
+            logoElement.src = "/images/loading.gif";
             $.post("/api/login", {
                 email: loginForm.email.value,
                 password: loginForm.password.value,
                 keepSignedIn: loginForm.keepLoggedIn.checked
             }, (data, status) => {
+                logoElement.src = originalImageSource;
                 if (data.error != undefined) {
                     document.getElementById("errorMessageLogin").innerHTML = data.error;
                 } else {
-                    location.reload();
+                    // location.reload();
                 }
             });
         } else {

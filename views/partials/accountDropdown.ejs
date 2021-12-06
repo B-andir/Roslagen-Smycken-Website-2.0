@@ -1,19 +1,5 @@
 <div id="backgroundBlur" onclick="HidePopups(), ToggleAccountDropdown()"></div>
 
-<div class="accountPopup" id="loginScreen">
-    <form id="loginForm" method="post" action="api/login">
-        <h1>Login</h1>
-        <input type="email" id="emailLogin" placeholder="Email" name="email" required>
-        <input type="password" id="passwordLogin" placeholder="Password" name="password" required>
-        <p id="errorMessageLogin"></p>
-        <div id="keepLoggedInContainer">
-            <label>Remember me</label>
-            <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
-        </div>
-    </form>
-    <button onclick="Login()">Login</button>
-</div>
-
 <div class="accountPopup" id="registerScreen">
     <form id="registerForm" method="post" action="api/register">
         <h1>Register</h1>

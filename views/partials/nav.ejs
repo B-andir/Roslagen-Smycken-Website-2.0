@@ -13,11 +13,21 @@
 
         <div id="accountDropdown">
             <div id="loginMenu">
-                <button onclick="TogglePopup('#loginScreen')">Login</button>
+                <form id="loginForm" method="post" action="api/login">
+                    <h1>Login</h1>
+                    <input type="email" id="emailLogin" placeholder="Email" name="email" required>
+                    <input type="password" id="passwordLogin" placeholder="Password" name="password" required>
+                    <p id="errorMessageLogin"></p>
+                    <div id="keepLoggedInContainer">
+                        <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
+                        <label for="keepLoggedIn">Remember me</label>
+                    </div>
+                </form>
+                <button onclick="Login()">Login</button>
                 <button onclick="TogglePopup('#registerScreen')">Register</button>
             </div>
             <div id="dropdownFlap">
-                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()"><p>V</p></button>
+                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()"><p>Login</p></button>
             </div>
         </div>
     </div>

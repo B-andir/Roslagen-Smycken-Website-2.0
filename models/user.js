@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
     phoneNumber: String,
     billingAddress: adressSchema,
 
-    isAdmin: Boolean
+    loginCookie: String,
+    isAdmin: { type: Boolean, default: false }
 });
 
 const userModel = mongoose.model('User', userSchema, 'users');

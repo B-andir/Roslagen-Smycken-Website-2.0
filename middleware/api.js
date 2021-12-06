@@ -21,31 +21,100 @@ const saltRounds = 16;
 
 mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true });
 
-function GenerateLoginCookie(user) {
-
+function GetRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-router.post('/register', async (req, res) => {
+function GenerateLoginCookie(user) {
+    user.loginCookie = uuidv4();
+    user.save()
+
+    return jwt.sign({ firstName: user.firstName, lastName: user.lastName, privateKey: user.loginCookie, isAdmin: user.isAdmin }, process.env.JWT_SECRET);
+}
+
+router.post('/register', async (req, res) => { 
     
     if (validator.validate(req.body.email)) {
+
+        userModel.findOne({ email: req.body.email }, async (err, user) => {
+            if (err) {
+                res.json({error: 'There was an error. Please try again'});
+                throw err;
+            } else if (user != null) {
+                res.json({error: 'This email is already in use.'});
+                return;
+            } else {
+                const hash = await bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
+                    if (err) {
+                        res.json({error: 'There was an error. Please try again'});
+                        throw err;
+                    }
+
+                    const user = await userModel.create({
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        email: req.body.email,
+                        password: hash,
+                        avatarURL: "/images/avatars/avatar-placeholder-0" + GetRandomInt(1, 5) + ".png",
+                        isAdmin: false
+                    }, (err, user) => {
+                        if (err) {
+                            res.json({error: 'There was an error. Please try again'});
+                            throw err;
+                        }
+
+                        console.log("Registered a new user");
+
+                        res
+                            .cookie('LOGIN_TOKEN', GenerateLoginCookie(user), {httpOnly: false})
+                            .send();
+                    });
+
+                });
+            }
+        })
+    } else {
+        res.json({error: 'Invalid Email address.'});
+        return;
+    }
+});
+
+router.post('/login', (req, res) => {
+    if (validator.validate(req.body.email)) {
+
+        userModel.findOne({ email: req.body.email }, async (err, user) => {
+            if (err) {
+                res.json({error: 'There was an error. Please try again'});
+                throw err;
+            } else if (user == null) {
+                res.json({error: 'Wrong email or password'});
+                return;
+            } else {
+                const result = await bcrypt.compare(req.body.password, user.password, (err, result) => {
+                    if (err) {
+                        res.json({error: 'There was an error. Please try again'});
+                        throw err;
+                    } else if (!result) {
+                        res.json({error: 'Wrong email or password'});
+                        return;
+                    } else {
+                        let cookieSettings = {httpOnly: false};
+                        if (req.body.keepSignedIn === "true") {
+                            cookieSettings["maxAge"] = (1000 * 60 * 60 * 24 * 7);  // maxAge = One week | Nodejs uses milliseconds
+                        }
+
+                        res
+                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(user), cookieSettings)
+                            .send();
+                    }
+                });
+            }
+        });
 
     } else {
         res.json({error: 'Invalid Email address.'});
         return;
     }
-
-    res.json('Error! Function not complete');  // Error message displayed without reloading page
-});
-
-router.post('/login', (req, res) => {
-    console.log(req);
-    // res.locals.test = true;
-    // res
-    //     .redirect(req.body.sourceURL);
-    // res.json('Error! Funtion not complete')  // Error message displayed without reloading page
-    // res.json({error: 'Error! Function not complete'})
-    res.cookie('testing', true);
-    res.send();
 });
 
 const handleError = (err, res) => {
@@ -72,7 +141,7 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                 if (pathExtname === ".png" || pathExtname === ".jpg") {
                     fs.renameSync(tempPath, targetPath);
                     if (err) handleError(err, res);
-                    imageURLs.push('/public/images/productImages/' + file.originalname);
+                    imageURLs.push('/images/productImages/' + file.originalname);
                 } else {
                     fs.unlinkSync(tempPath, err => {
                         if (err) return handleError(err, res);
