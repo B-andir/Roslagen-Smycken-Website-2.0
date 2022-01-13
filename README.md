@@ -6,7 +6,7 @@ This is the second version/iteration of the website for an imaginary jewelry com
 The future plan is to create a web-shop, for testing implementation of different payment methods, to optimize user experience through the whole transaction.
 Currently, the only progress on this is an admin page for semi-easily (needs more work) adding new products to the database. Later on, the EJS code will then build the shop page using information from the database.
 
-Want to test the website locally? Clone the repository, and in the root folder, create a file named ".env", and add the following:
+Want to test the website locally? Clone the repository, and make sure you have Node.js installed on your computer. Install all the required packages with the command "npm i" in the terminal, inside the project root directory. Then, in the root directory, create a file named ".env" and add the following:
 
 JWT_SECRET=[A random string of characters, suggested at *least* 10 characters long]
 
