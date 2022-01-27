@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: String,
     billingAddress: adressSchema,
 
-    loginCookie: String,
+    privateKey: String,
     isAdmin: { type: Boolean, default: false }
 });
 

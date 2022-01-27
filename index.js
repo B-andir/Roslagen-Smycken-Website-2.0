@@ -29,6 +29,9 @@ app.use('/api', (require('./middleware/api.js')));
 
 app.use('/', (require('./middleware/checkCookies.js')));
 
+// route to admin pages
+app.use('/admin', require('./routes/adminRouting.js'));
+
 // route to requested page
 app.use('/', require('./routes/routing.js'));
 

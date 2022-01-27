@@ -26,10 +26,10 @@ function GetRandomInt(min, max) {
 }
 
 function GenerateLoginCookie(user) {
-    user.loginCookie = uuidv4();
+    user.privateKey = uuidv4();
     user.save()
 
-    return jwt.sign({ firstName: user.firstName, lastName: user.lastName, privateKey: user.loginCookie, isAdmin: user.isAdmin }, process.env.JWT_SECRET);
+    return jwt.sign({ mongoID: user._id, privateKey: user.privateKey }, process.env.JWT_SECRET);
 }
 
 router.post('/register', async (req, res) => { 
@@ -103,6 +103,8 @@ router.post('/login', (req, res) => {
                             cookieSettings["maxAge"] = (1000 * 60 * 60 * 24 * 7);  // maxAge = One week | Nodejs uses milliseconds
                         }
 
+                        res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  // Delete already existent cookie
+
                         res
                             .cookie('LOGIN_COOKIE', GenerateLoginCookie(user), cookieSettings)
                             .send();
@@ -115,6 +117,11 @@ router.post('/login', (req, res) => {
         res.json({error: 'Invalid Email address.'});
         return;
     }
+});
+
+router.post('/logout', (req, res) => {
+    res.cookie('LOGIN_COOKIE', '', {maxAge: 0});
+    res.send();
 });
 
 const handleError = (err, res) => {
@@ -134,7 +141,6 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                 let file = req.files[i];
                 const tempPath = file.path;
                 const targetPath = path.join(__dirname, '../public/images/productImages/', file.originalname);
-                // console.log(req.body);  // req.body is a dictionary of the form submit.
 
                 let pathExtname = path.extname(file.originalname).toLowerCase();
 

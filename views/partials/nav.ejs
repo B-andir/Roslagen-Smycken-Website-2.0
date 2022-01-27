@@ -24,13 +24,22 @@
                     </div>
                 </form>
                 <button onclick="Login()">Login</button>
-                <button onclick="TogglePopup('#registerScreen')">Register</button>
+                <button onclick="ToggleRegisterPopup()">Register</button>
             </div>
             <div id="dropdownFlap">
-                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()"><p>Login</p></button>
+                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()">
+                    <%# console.log(user) %> 
+                    <% if (user == null) { %>
+                        <p>Login</p>
+                    <% } else { %>
+                        <p>Account</p>
+                    <% } %> 
+                </button>
             </div>
         </div>
     </div>
 </nav>
+
+<div id="backgroundBlur" onclick="HidePopups()"></div>
 
 <%- include('./accountDropdown.ejs') %> 

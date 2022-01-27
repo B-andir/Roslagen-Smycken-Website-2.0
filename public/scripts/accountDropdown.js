@@ -1,29 +1,31 @@
 let isDown = false;
+let isBlurred = false;
 
 function HidePopups() {
+    ToggleAccountDropdown();
     document.querySelector("#registerScreen").style.display = 'none';
-    document.querySelector("#backgroundBlur").style.display = 'none';
 }
 
 function ToggleAccountDropdown() {
     let element = document.querySelector("#accountDropdown");
+    let blur = document.querySelector("#backgroundBlur");
 
     element.style.top = isDown ? ('-' + $("#accountDropdown").outerHeight()) : '-1';
     element.style.boxShadow = isDown ? '' : '1px 1px 8px black';
-
-    if (isDown) {
-        HidePopups();
-    }
+    blur.style.display = isBlurred ? 'none' : 'block';
 
     isDown = !isDown;
+    isBlurred = !isBlurred;
 }
 
-function TogglePopup(target) {
-    document.querySelector("#registerScreen").style.display = 'none';
-    let loginScreen = document.querySelector(target).style;
-    let blurBackground = document.querySelector("#backgroundBlur").style;
-    loginScreen.display = loginScreen.display == 'flex' ? 'none' : 'flex';
-    blurBackground.display = loginScreen.display == 'none' ? 'none' : 'block';
+function ToggleRegisterPopup() {
+    let element = document.querySelector("#accountDropdown");
+    let register =  document.querySelector("#registerScreen");
+
+    element.style.top = ('-' + $("#accountDropdown").outerHeight());
+    element.style.boxShadow = '';
+
+    register.style.display = register.style.display == 'flex' ? 'none' : 'flex';
 }
 
 function Login() {
@@ -43,7 +45,7 @@ function Login() {
                 if (data.error != undefined) {
                     document.getElementById("errorMessageLogin").innerHTML = data.error;
                 } else {
-                    // location.reload();
+                    location.reload();
                 }
             });
         } else {
@@ -80,4 +82,10 @@ function Register() {
     } else {
         console.log("Not all fields filled");
     }
+}
+
+function Logout() {
+    $.post("/api/logout", {}, (data, status) => {
+        location.reload();
+    });
 }
