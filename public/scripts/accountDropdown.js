@@ -59,7 +59,9 @@ function Register() {
     if (registerForm.firstName.value.length != 0 && registerForm.lastName.value.length != 0 && registerForm.password.value.length != 0) {
         if (registerForm.password.value == registerForm.passwordRepeated.value) {
             if (registerForm.email.value.includes('@')) {
-                console.log("Success. POST to server");
+                let logoElement = document.getElementById("rs-logo");
+                let originalImageSource = logoElement.src;
+                logoElement.src = "/images/loading.gif";
 
                 $.post("/api/register", {
                     firstName: registerForm.firstName.value,
@@ -67,6 +69,7 @@ function Register() {
                     email: registerForm.email.value,
                     password: registerForm.password.value
                 }, (data, status) => {
+                    logoElement.src = originalImageSource;
                     if (data.error != undefined) {
                         document.getElementById("errorMessageRegister").innerHTML = data.error;
                     } else {
