@@ -25,11 +25,13 @@ function GetRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function GenerateLoginCookie(user) {
+function GenerateLoginCookie(req, user) {
     user.privateKey = uuidv4();
     user.save()
 
-    return jwt.sign({ mongoID: user._id, privateKey: user.privateKey }, process.env.JWT_SECRET);
+    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+
+    return jwt.sign({ mongoID: user._id, privateKey: user.privateKey, ip: ip }, process.env.JWT_SECRET);
 }
 
 router.post('/register', async (req, res) => { 
@@ -41,8 +43,7 @@ router.post('/register', async (req, res) => {
                 res.json({error: 'There was an error. Please try again'});
                 throw err;
             } else if (user != null) {
-                res.json({error: 'This email is already in use.'});
-                return;
+                return res.json({error: 'This email is already in use.'});
             } else {
                 const hash = await bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
                     if (err) {
@@ -65,62 +66,59 @@ router.post('/register', async (req, res) => {
 
                         console.log("Registered a new user");
 
-                        res
-                            .cookie('LOGIN_TOKEN', GenerateLoginCookie(user), {httpOnly: false})
-                            .send();
+                        return res
+                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), {httpOnly: false})
+                            .send({});
                     });
-
                 });
             }
         })
     } else {
-        res.json({error: 'Invalid Email address.'});
-        return;
+        return res.json({error: 'Invalid Email address.'});
     }
 });
 
 router.post('/login', (req, res) => {
     if (validator.validate(req.body.email)) {
-
         userModel.findOne({ email: req.body.email }, async (err, user) => {
             if (err) {
-                res.json({error: 'There was an error. Please try again'});
+                res.send({error: 'There was an error. Please try again'});
                 throw err;
             } else if (user == null) {
-                res.json({error: 'Wrong email or password'});
-                return;
+                return res.send({error: 'Wrong email or password'});
             } else {
                 const result = await bcrypt.compare(req.body.password, user.password, (err, result) => {
                     if (err) {
-                        res.json({error: 'There was an error. Please try again'});
+                        res.send({error: 'There was an error. Please try again'});
                         throw err;
                     } else if (!result) {
-                        res.json({error: 'Wrong email or password'});
-                        return;
+                        return res.send({error: 'Wrong email or password'});
                     } else {
                         let cookieSettings = {httpOnly: false};
                         if (req.body.keepSignedIn === "true") {
                             cookieSettings["maxAge"] = (1000 * 60 * 60 * 24 * 7);  // maxAge = One week | Nodejs uses milliseconds
                         }
 
-                        res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  // Delete already existent cookie
+                        // Delete already existent cookies
+                        res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  
+                        res.cookie('ADMIN_COOKIE', '', {maxAge: 0})
 
-                        res
-                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(user), cookieSettings)
-                            .send();
+                        return res
+                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), cookieSettings)
+                            .send({});
                     }
                 });
             }
         });
 
     } else {
-        res.json({error: 'Invalid Email address.'});
-        return;
+        return res.json({error: 'Invalid Email address.'});
     }
 });
 
 router.post('/logout', (req, res) => {
     res.cookie('LOGIN_COOKIE', '', {maxAge: 0});
+    res.cookie('ADMIN_COOKIE', '', {maxAge: 0})
     res.send();
 });
 

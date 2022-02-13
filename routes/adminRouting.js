@@ -4,28 +4,28 @@ const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
-router.get('/order/build', (req, res) => {
-
-    // console.log(req);
-
-    let cookie = req.cookies.LOGIN_COOKIE;
-    let unautharized = true;
+router.get('*', (req, res, next) => {
+    
+    let cookie = req.cookies.ADMIN_COOKIE;
+    let isAdmin = false;
 
     if (cookie != null) {
+        const decoded = jwt.verify(cookie, process.env.ADMIN_JWT_SECRET)
 
-        jwt.verify(cookie, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) throw err;
-
-            console.log(decoded);
-
-            if (decoded.isAdmin) {
-                unautharized = false;
-                res.render('order_builder', {title: 'ADMIN | Order Builder'});
-            }
-        });
+        if (decoded.ADMIN_SECRET == process.env.ADMIN_PAYLOAD) {
+            isAdmin = true
+        }
     }
 
-    if (unautharized) res.render('401', {title: '401'});
+    if (!isAdmin) {
+        return res.status(401).render('401', {title: '401'});
+    } else {
+        next();
+    }
+});
+
+router.get('/order/build', (req, res) => {
+    res.render('order_builder', {title: 'ADMIN | Order Builder'});
 });
 
 module.exports = router;

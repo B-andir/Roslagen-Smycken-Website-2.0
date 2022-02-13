@@ -3,43 +3,17 @@
         <a href="/"><img id="rs-logo" src="/images/Logo.png"></a>
 
         <div id="navOptions">
+            <a class="navButton" href="/showcase"><button>Showcase</button></a>
             <a class="navButton" href="/order"><button>Order</button></a>
-            <a class="navButton" href="/gallery"><button>Gallery</button></a>
             <a class="navButton" href="/about"><button>About</button></a>
         </div>
 
         <script src="/scripts/toggleDarkMode.js"></script>
         <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="/images/darkmodeButton.png">
 
-        <div id="accountDropdown">
-            <div id="loginMenu">
-                <form id="loginForm" method="post" action="api/login">
-                    <h1>Login</h1>
-                    <input type="email" id="emailLogin" placeholder="Email" name="email" required>
-                    <input type="password" id="passwordLogin" placeholder="Password" name="password" required>
-                    <p id="errorMessageLogin"></p>
-                    <div id="keepLoggedInContainer">
-                        <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
-                        <label for="keepLoggedIn">Remember me</label>
-                    </div>
-                </form>
-                <button onclick="Login()">Login</button>
-                <button onclick="ToggleRegisterPopup()">Register</button>
-            </div>
-            <div id="dropdownFlap">
-                <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()">
-                    <%# console.log(user) %> 
-                    <% if (user == null) { %>
-                        <p>Login</p>
-                    <% } else { %>
-                        <p>Account</p>
-                    <% } %> 
-                </button>
-            </div>
-        </div>
     </div>
 </nav>
 
-<div id="backgroundBlur" onclick="HidePopups()"></div>
-
 <%- include('./accountDropdown.ejs') %> 
+
+<div id="backgroundBlur" onclick="HidePopups()"></div>

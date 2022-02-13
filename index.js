@@ -1,7 +1,10 @@
 const express = require('express');
 const session = require('express-session');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
+const https = require('https');
 const morgan = require('morgan');
+const { v4 : uuidv4 } = require('uuid');
 
 require('dotenv').config();
 
@@ -9,15 +12,24 @@ const PORT = process.env.PORT != null ? process.env.PORT : 5100;
 
 const app = express();
 
+const options = process.env.NODE_ENV != 'development' ? {
+    cert: fs.readFileSync('/etc/letsencrypt/live/roslagensmycken.com/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/roslagensmycken.com/privkey.pem')
+} : null
+
 app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
+    // genid: req => {
+    //     return uuidv4()
+    // },
     secret: process.env.JWT_SECRET,
     resave: true,
-    saveUninitialized: false
+    saveUninitialized: false,
+    // cookie: { secure: process.env.NODE_ENV != 'development'}
 }));
 
 app.enable('trust proxy')
@@ -49,3 +61,9 @@ app.use('/', require('./routes/routing.js'));
 app.listen(PORT, () => {
     console.log(`\nServer running on port ${PORT}...`);
 });
+
+if (process.env.NODE_ENV != 'development') {
+    https.createServer(options, app).listen(8443, () => {
+        console.log('Secure server running on port 8443');
+    })
+}

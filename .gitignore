@@ -6,7 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-#Sensitive MySQL information
+# SSL information
+SSL
+*.pem
+
+# Sensitive MySQL information
 mySQL-info.txt
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

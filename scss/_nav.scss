@@ -1,0 +1,55 @@
+nav {
+    height: 120px;
+    background-color: $grey;
+
+    #rs-logo {
+        width: 100px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    #navFlexContainer {
+        margin: auto;
+        height: 100%;
+        width: 95%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        #navOptions {
+            width: 56%;
+            height: inherit;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .navButton {
+                height: 80%;
+                width: fill;
+
+                button {
+                    height: 100%;
+                    width: 100%;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    #darkmodeToggle {
+        width: 70px;
+        border-radius: 100%;
+        box-shadow: -2px -2px 5px black;
+
+        // Added through JavaScript in toggleDarkMode.js:18 (as of writing this comment)
+        // transition: transform 0.3s, box-shadow 0.2s;
+    }
+
+    #darkmodeToggle:hover {
+        cursor: pointer;
+    }
+}
