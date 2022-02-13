@@ -20,9 +20,19 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.enable('trust proxy')
+
 app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
+
+// Redirect http to https
+app.use(function(req, res, next) {
+    if (process.env.NODE_ENV != 'development' && !req.secure) {
+       return res.redirect("https://" + req.headers.host + req.url);
+    }
+    next();
+})
 
 // API Calls
 app.use('/api', (require('./middleware/api.js')));
