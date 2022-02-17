@@ -1,10 +1,18 @@
+div#rs-logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    transition: left 0.5s;
+
+    #rs-image {
+        width: 120px;
+    }
+}
+
 nav {
     height: 120px;
     background-color: $grey;
-
-    #rs-logo {
-        width: 100px;
-    }
 
     a {
         text-decoration: none;
@@ -16,7 +24,7 @@ nav {
         width: 95%;
 
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
 
         #navOptions {
@@ -41,6 +49,10 @@ nav {
     }
 
     #darkmodeToggle {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
         width: 70px;
         border-radius: 100%;
         box-shadow: -2px -2px 5px black;

@@ -14,7 +14,7 @@ router.use(async (req, res, next) => {
     const cookie = await req.cookies.LOGIN_COOKIE;
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
-    res.locals.user = null;
+    res.locals.user = {};
 
     if (cookie != null) {
         const decoded = await jwt.verify(cookie, process.env.JWT_SECRET, async (err, decoded) => {
@@ -43,7 +43,8 @@ router.use(async (req, res, next) => {
                         };
 
                         if (user.isAdmin) {
-                            let cookiePayload = jwt.sign({ADMIN_SECRET: process.env.ADMIN_PAYLOAD}, process.env.ADMIN_JWT_SECRET)
+                            var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+                            let cookiePayload = jwt.sign({ADMIN_SECRET: process.env.ADMIN_PAYLOAD, ip: ip}, process.env.ADMIN_JWT_SECRET, { expiresIn: '1m'})
                             res.cookie('ADMIN_COOKIE', cookiePayload, {httpOnly: false, maxAge: 120000});
                             next();
                         } else {
@@ -59,8 +60,6 @@ router.use(async (req, res, next) => {
             }
         });
     } else {
-        res.locals.user = null;
-    
         next();
     }
 });
