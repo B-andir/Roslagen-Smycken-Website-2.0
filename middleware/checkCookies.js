@@ -8,7 +8,7 @@ const uuid = require('uuid');
 require('dotenv').config();
 
 const userModel = require('../models/user');
-mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
 
 router.use(async (req, res, next) => {
     const cookie = await req.cookies.LOGIN_COOKIE;

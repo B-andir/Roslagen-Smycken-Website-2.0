@@ -1,6 +1,6 @@
-<div id="rs-logo"><a id="rs-link" href="/"><img id="rs-image" src="/images/Logo.png"></a></div>
 <nav>
     <div id="navFlexContainer">
+        <div id="logoContainer"><a id="rs-link" href="/"><img id="rs-image" src="/images/Logo.png"></a></div>
 
         <div id="navOptions">
             <a class="navButton" href="/showcase"><button>Showcase</button></a>
@@ -8,10 +8,10 @@
             <a class="navButton" href="/about"><button>About</button></a>
         </div>
 
+        <script src="/scripts/toggleDarkMode.js"></script>
+        <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="/images/darkmodeButton.png">
     </div>
 
-    <script src="/scripts/toggleDarkMode.js"></script>
-    <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="/images/darkmodeButton.png">
 </nav>
 
 <%- include('./accountDropdown.ejs') %> 

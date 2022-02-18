@@ -19,7 +19,7 @@ require('dotenv').config();
 
 const saltRounds = 16;
 
-mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
 
 function GetRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
