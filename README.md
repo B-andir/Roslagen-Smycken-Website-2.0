@@ -10,4 +10,4 @@ Want to test the website locally? Clone the repository, and make sure you have N
 
 JWT_SECRET=[A random string of characters, suggested at *least* 10 characters long]
 
-MONGODB_URL=[Your MongoDB URL for using with the website]
+MONGODB_URI=[Your MongoDB URL for using with the website]
