@@ -1,5 +1,5 @@
 # Roslagen Smycken Website 2.0
-Website URL: https://roslagen-smycken.herokuapp.com/
+Website URL: https://roslagensmycken.com/
 
 This is the second version/iteration of the website for an imaginary jewelry company, with purpose of practicing using different methods for communication. Specific focus on EJS, JavaScript and Database operations.
 
