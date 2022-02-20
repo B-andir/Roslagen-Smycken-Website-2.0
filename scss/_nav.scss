@@ -3,7 +3,9 @@ nav {
     top: 0;
     width: 100%;
     height: 75px;
-    background-color: $grey;
+    background-color: $alphaGrey;
+
+    backdrop-filter: blur(1px);
 
     a {
         text-decoration: none;
@@ -34,20 +36,36 @@ nav {
             align-items: center;
 
             .navButton {
-                height: 80%;
+                height: 90%;
                 width: fill;
 
                 button {
                     height: 100%;
                     width: 100%;
                     cursor: pointer;
+
+                    border: none;
+
+                    background-color: rgba(255, 255, 255, 0);
+
+                    border-left: 1px solid rgba(0, 0, 0, 1);
+
+                    transition: background-color 0.2s;
                 }
+
+                button:hover {
+                    background-color: rgba(255, 255, 255, 0.5);
+                }
+            }
+
+            #lastNavButton button {
+                border-right: 1px solid rgba(0, 0, 0, 1);
             }
         }
     }
 
     #darkmodeToggle {
-        width: 60px;
+        width: 58px;
         border-radius: 100%;
         box-shadow: -2px -2px 5px black;
 
@@ -59,3 +77,9 @@ nav {
         cursor: pointer;
     }
 }
+
+// .darkMode {
+//     .navButton {
+
+//     }
+// }

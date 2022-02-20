@@ -1,3 +1,4 @@
+<% let isLoggedIn = user == null ? false : true; %> 
 
 <div id="accountDropdown">
     <div id="loginMenu">
@@ -13,14 +14,25 @@
         </form>
         <button onclick="Login()">Login</button>
         <button onclick="ToggleRegisterPopup()">Register</button>
+
+        <script>
+            document.getElementById("passwordLogin").onkeydown = function(e) {
+                var keyCode = e ? (e.which ? e.which : e.keyCode) : e.keyCode;
+                if (keyCode == 13) {
+                    Login();
+                }
+            }
+        </script>
     </div>
     <div id="dropdownFlap">
         <button id="dropdownToggleButton" onclick="ToggleAccountDropdown()">
             <%# console.log(user) %> 
-            <% if (user == null) { %>
-                <p>Login</p>
+            <% if (!isLoggedIn) { %>
+                <p class="dropdownText">Login</p>
+                <p class="dropdownArrow" style="transform: rotate(90deg);">&rsaquo;</p>
             <% } else { %>
-                <p>Account</p>
+                <p class="dropdownText">Account</p>
+                <p class="dropdownArrow" style="transform: rotate(90deg);">&rsaquo;</p>
             <% } %> 
         </button>
     </div>
