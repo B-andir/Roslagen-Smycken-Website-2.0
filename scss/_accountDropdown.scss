@@ -129,6 +129,7 @@
 
         button {
             width: 80%;
+            cursor: pointer;
             margin: 0 auto;
         }
     }
@@ -155,13 +156,31 @@
 
             transition: transform 0.2s;
 
-            p {
+            cursor: pointer;
+
+            display: flex;
+            justify-content: flex-start;
+
+            .dropdownText {
                 margin: 0;
                 
                 height: 100%;
                 width: 100%;
 
                 color: white;
+            }
+
+            .dropdownArrow {
+                height: 15px;
+                width: 15px;
+                padding: 0 12%;
+                font-size: larger;
+                margin-top: -0px;
+                margin: -0px 0px 0px 2px;
+
+                color: white;
+
+                transition: transform 0.1s, margin-left 0.1s;
             }
         }
     }

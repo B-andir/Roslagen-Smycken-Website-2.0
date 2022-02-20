@@ -41,15 +41,8 @@ router.use(async (req, res, next) => {
                             avatarURL: user.avatarURL,
                             isAdmin: user.isAdmin
                         };
-
-                        if (user.isAdmin) {
-                            var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-                            let cookiePayload = jwt.sign({ADMIN_SECRET: process.env.ADMIN_PAYLOAD, ip: ip}, process.env.ADMIN_JWT_SECRET, { expiresIn: '1m'})
-                            res.cookie('ADMIN_COOKIE', cookiePayload, {httpOnly: false, maxAge: 120000});
-                            next();
-                        } else {
-                            next();
-                        }
+                        
+                        next();
 
                     } else {
                         res.cookie('LOGIN_COOKIE', '', {maxAge: 0});

@@ -101,7 +101,6 @@ router.post('/login', (req, res) => {
 
                         // Delete already existent cookies
                         res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  
-                        res.cookie('ADMIN_COOKIE', '', {maxAge: 0})
 
                         return res
                             .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), cookieSettings)
@@ -118,7 +117,6 @@ router.post('/login', (req, res) => {
 
 router.post('/logout', (req, res) => {
     res.cookie('LOGIN_COOKIE', '', {maxAge: 0});
-    res.cookie('ADMIN_COOKIE', '', {maxAge: 0})
     res.send();
 });
 

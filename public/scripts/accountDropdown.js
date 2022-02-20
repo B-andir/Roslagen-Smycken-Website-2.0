@@ -16,9 +16,12 @@ function HidePopups() {
 
 function ToggleAccountDropdown() {
     let element = document.querySelector("#accountDropdown");
+    let dropdownArrow = document.querySelector(".dropdownArrow");
     let blur = document.querySelector("#backgroundBlur");
 
     element.style.top = isDown ? ('-' + $("#accountDropdown").outerHeight()) : '-1';
+    dropdownArrow.style.transform = isDown ? ('rotate(90deg)') : ('rotate(270deg)')
+    dropdownArrow.style.marginLeft = isDown ? ('2px') : ('-5px')
     element.style.boxShadow = isDown ? '' : '1px 1px 8px black';
     blur.style.display = isBlurred ? 'none' : 'block';
 
@@ -41,7 +44,7 @@ function Login() {
 
     if (loginForm.email.value.length != 0 && loginForm.password.value.length != 0) {
         if (loginForm.email.value.includes('@') && loginForm.email.value.includes('.')) {
-            let logoElement = document.getElementById("rs-logo");
+            let logoElement = document.getElementById("rs-image");
             let originalImageSource = logoElement.src;
             logoElement.src = "/images/loading.gif";
 
@@ -80,7 +83,7 @@ function Register() {
             
             if (registerForm.password.value == registerForm.passwordRepeated.value) {
                 if (registerForm.email.value.includes('@')) {
-                    let logoElement = document.getElementById("rs-logo");
+                    let logoElement = document.getElementById("rs-image");
                     let originalImageSource = logoElement.src;
                     logoElement.src = "/images/loading.gif";
 
