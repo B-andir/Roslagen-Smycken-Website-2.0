@@ -10,6 +10,7 @@ require('dotenv').config();
 const userModel = require('../models/user');
 mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
 
+// Check login cookie
 router.use(async (req, res, next) => {
     const cookie = await req.cookies.LOGIN_COOKIE;
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
@@ -53,6 +54,18 @@ router.use(async (req, res, next) => {
             }
         });
     } else {
+        next();
+    }
+});
+
+// Check darkMode cookie
+router.use((req, res, next) => {
+    const cookie = req.cookies.darkMode;
+    if (cookie == "true") {
+        res.locals.darkMode = true;
+        next();
+    } else {
+        res.locals.darkMode = false;
         next();
     }
 });

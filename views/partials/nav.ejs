@@ -1,6 +1,12 @@
 <nav>
     <div id="navFlexContainer">
-        <div id="logoContainer"><a id="rs-link" href="/"><img id="rs-image" src="/images/Logo.png"></a></div>
+        <div id="logoContainer"><a id="rs-link" href="/">
+            if(darkMode == true) { %>
+                <img id= "rs-image" src="/images/LogoGolden.png">
+            <% } else { %>
+                <img id= "rs-image" src="/images/Logo.png">
+            <% } %> 
+        </a></div>
 
         <div id="navOptions">
             <%- include('./navOptions.ejs') %>
@@ -15,3 +21,5 @@
 <%- include('./accountDropdown.ejs') %> 
 
 <div id="backgroundBlur" onclick="HidePopups()"></div>
+
+<div id="navContentSpacer"></div>

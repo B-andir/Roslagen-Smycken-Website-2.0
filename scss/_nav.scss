@@ -2,7 +2,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 75px;
+    height: 10%;
     background-color: $alphaGrey;
 
     backdrop-filter: blur(1px);
@@ -23,7 +23,7 @@ nav {
         #logoContainer {
 
             #rs-image {
-                width: 72px;
+                height: 90%;
             }
         }
 
@@ -47,10 +47,23 @@ nav {
                     border: none;
 
                     background-color: rgba(255, 255, 255, 0);
+                    border-left: 1px solid rgba(255, 255, 255, 0.7);
 
-                    border-left: 1px solid rgba(0, 0, 0, 1);
+                    font-family: trajan;
+                    font-weight: bold;
+                    font-size: 3vh;
+
+                    color: white;
+
+                    border-radius: inherit;
 
                     transition: background-color 0.2s;
+
+                    .darkMode {
+                        // DOESN'T WORK
+                        // TODO
+                        border-color: #e1ac49;
+                    }
                 }
 
                 button:hover {
@@ -58,16 +71,36 @@ nav {
                 }
             }
 
-            #lastNavButton button {
-                border-right: 1px solid rgba(0, 0, 0, 1);
+            #firstNavButton {
+
+                border-top-left-radius: 1vh;
+                border-bottom-left-radius: 1vh;
+
+                button {
+                    border-left-width: 2px;
+
+                    border-radius: inherit;
+                }
+            }
+
+            #lastNavButton {
+
+                border-top-right-radius: 1vh;
+                border-bottom-right-radius: 1vh;
+
+                button {
+                    border-right: 2px solid rgba(255, 255, 255, 0.7);
+
+                    border-radius: inherit;
+                }
             }
         }
     }
 
     #darkmodeToggle {
-        width: 58px;
+        height: 60%;
         border-radius: 100%;
-        box-shadow: -2px -2px 5px black;
+        box-shadow: -0.4vh -0.4vh 1.2vh black;
 
         // Added through JavaScript in toggleDarkMode.js:18 (as of writing this comment)
         // transition: transform 0.3s, box-shadow 0.2s;
@@ -78,8 +111,6 @@ nav {
     }
 }
 
-// .darkMode {
-//     .navButton {
-
-//     }
-// }
+#navContentSpacer {
+    height: 10vh;
+}

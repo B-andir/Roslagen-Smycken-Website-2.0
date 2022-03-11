@@ -1,4 +1,5 @@
 var element = document.getElementById("container");
+var logo = document.getElementById("rs-image");
 var currentRotation = 0;
 
 function SetDarkMode() {
@@ -21,11 +22,13 @@ function ToggleDarkMode() {
     if (element.classList.contains("darkMode")) {
         // Disable Dark Mode
         element.classList.remove("darkMode");
+        logo.src = "/images/Logo.png";
         document.cookie = "darkMode=false; path=/";
         currentRotation += 180;
     } else {
         // Set Dark Mode
         element.classList.add("darkMode");
+        logo.src = "/images/LogoGolden.png"
         document.cookie = "darkMode=true; max-age=" + (60 * 60 * 24 * 365) + "; path=/";  // Max-age = 1 year
         currentRotation += 180;
     }
