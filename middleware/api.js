@@ -39,84 +39,73 @@ function GenerateLoginCookie(req, user) {
 }
 
 router.post('/register', async (req, res) => { 
-    
-    if (validator.validate(req.body.email)) {
+    userModel.findOne({ email: req.body.email }, async (err, user) => {
+        if (err) {
+            res.json({error: 'There was an error. Please try again'});
+            throw err;
+        } else if (user != null) {
+            return res.json({error: 'This email is already in use.'});
+        } else {
+            const hash = await bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
+                if (err) {
+                    res.json({error: 'There was an error. Please try again'});
+                    throw err;
+                }
 
-        userModel.findOne({ email: req.body.email }, async (err, user) => {
-            if (err) {
-                res.json({error: 'There was an error. Please try again'});
-                throw err;
-            } else if (user != null) {
-                return res.json({error: 'This email is already in use.'});
-            } else {
-                const hash = await bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
+                const user = await userModel.create({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: hash,
+                    avatarURL: "/images/avatars/avatar-placeholder-0" + GetRandomInt(1, 5) + ".png",
+                    isAdmin: false
+                }, (err, user) => {
                     if (err) {
                         res.json({error: 'There was an error. Please try again'});
                         throw err;
                     }
 
-                    const user = await userModel.create({
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName,
-                        email: req.body.email,
-                        password: hash,
-                        avatarURL: "/images/avatars/avatar-placeholder-0" + GetRandomInt(1, 5) + ".png",
-                        isAdmin: false
-                    }, (err, user) => {
-                        if (err) {
-                            res.json({error: 'There was an error. Please try again'});
-                            throw err;
-                        }
+                    console.log("Registered a new user");
 
-                        console.log("Registered a new user");
-
-                        return res
-                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), {httpOnly: false})
-                            .send({});
-                    });
+                    return res
+                        .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), {httpOnly: false})
+                        .send({});
                 });
-            }
-        })
-    } else {
-        return res.json({error: 'Invalid Email address.'});
-    }
+            });
+        }
+    })
 });
 
 router.post('/login', (req, res) => {
-    if (validator.validate(req.body.email)) {
-        userModel.findOne({ email: req.body.email }, async (err, user) => {
-            if (err) {
-                res.send({error: 'There was an error. Please try again'});
-                throw err;
-            } else if (user == null) {
-                return res.send({error: 'Wrong email or password'});
-            } else {
-                const result = await bcrypt.compare(req.body.password, user.password, (err, result) => {
-                    if (err) {
-                        res.send({error: 'There was an error. Please try again'});
-                        throw err;
-                    } else if (!result) {
-                        return res.send({error: 'Wrong email or password'});
-                    } else {
-                        let cookieSettings = {httpOnly: false};
-                        if (req.body.keepSignedIn === "true") {
-                            cookieSettings["maxAge"] = (1000 * 60 * 60 * 24 * 7);  // maxAge = One week | Nodejs uses milliseconds
-                        }
-
-                        // Delete already existent cookies
-                        res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  
-
-                        return res
-                            .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), cookieSettings)
-                            .send({});
+    userModel.findOne({ email: req.body.email }, async (err, user) => {
+        if (err) {
+            res.send({error: 'There was an error. Please try again'});
+            throw err;
+        } else if (user == null) {
+            return res.send({error: 'Wrong email or password'});
+        } else {
+            const result = await bcrypt.compare(req.body.password, user.password, (err, result) => {
+                if (err) {
+                    res.send({error: 'There was an error. Please try again'});
+                    throw err;
+                } else if (!result) {
+                    return res.send({error: 'Wrong email or password'});
+                } else {
+                    let cookieSettings = {httpOnly: false};
+                    if (req.body.keepSignedIn === "true") {
+                        cookieSettings["maxAge"] = (1000 * 60 * 60 * 24 * 7);  // maxAge = One week | Nodejs uses milliseconds
                     }
-                });
-            }
-        });
 
-    } else {
-        return res.json({error: 'Invalid Email address.'});
-    }
+                    // Delete already existent cookies
+                    res.cookie('LOGIN_COOKIE', '', {maxAge: 0})  
+
+                    return res
+                        .cookie('LOGIN_COOKIE', GenerateLoginCookie(req, user), cookieSettings)
+                        .send({});
+                }
+            });
+        }
+    });
 });
 
 router.post('/logout', (req, res) => {
