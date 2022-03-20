@@ -157,13 +157,11 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                         kind: req.body.kind.toLowerCase(), 
                         pattern: req.body.pattern.toLowerCase(), 
                         title: req.body.title,
-                        description: req.body.description, 
+                        description: req.body.body, 
                         estimatedPriceKr: req.body.estimatedPriceKr, 
                         images: imageURLs
                     }, (err, product) => {
                         if (err) throw err;
-            
-                        console.log("Created new product!");
             
                         res.redirect(('/products/?id=' + product._id));
                     });

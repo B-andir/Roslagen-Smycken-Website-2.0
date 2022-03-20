@@ -28,6 +28,7 @@ router.use(async (req, res, next) => {
             if (decoded.ip != ip) {
                 console.warn("WARNIND: User attempted verification with missmatchin IP");
                 res.cookie('LOGIN_COOKIE', '', {maxAge: 0});
+                res.locals.user = null;
                 next();
             } else {
                 const user = await userModel.findById(decoded.mongoID, (err, user) => {
@@ -48,12 +49,14 @@ router.use(async (req, res, next) => {
                     } else {
                         res.cookie('LOGIN_COOKIE', '', {maxAge: 0});
     
+                        res.locals.user = null;
                         next();
                     }
                 }).clone().catch((err) => { console.log(err)});
             }
         });
     } else {
+        res.locals.user = null;
         next();
     }
 });
