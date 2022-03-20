@@ -11,3 +11,5 @@ Want to test the website locally? Clone the repository, and make sure you have N
 JWT_SECRET=[A random string of characters, suggested at *least* 10 characters long]
 
 MONGODB_URI=[Your MongoDB URL for using with the website]
+
+CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
