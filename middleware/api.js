@@ -140,10 +140,8 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
             for (i = 0; i < length; i++) {
                 let file = req.files[i];
                 const tempPath = file.path;
-                const targetPath = path.join(__dirname, '../public/images/productImages/', file.originalname);
 
                 let pathExtname = path.extname(file.originalname).toLowerCase();
-
                 if (pathExtname === ".png" || pathExtname === ".jpg") {
                     await cloudinary.uploader.upload(tempPath, {
                         resource_type: "image",
@@ -158,10 +156,6 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                                 if (err) return handleError(err, res);
                             });
 
-                            console.log(result.secure_url);
-                            console.log(result.url);
-
-
                             imageURLs.push(result.secure_url);
                         }
 
@@ -170,14 +164,14 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                     fs.unlinkSync(tempPath, err => {
                         if (err) return handleError(err, res);
                         console.log(`Error: Only .png and .jpg allowed! [Image ${i}]`);
-                        
+                        res.redirect('/admin/order/build?error:Unsupported-file-format');
                     });
                 }
 
                 if (i == length - 1) {
                     const product = await productModel.create({ 
-                        kind: req.body.kind.toLowerCase(), 
-                        pattern: req.body.pattern.toLowerCase(), 
+                        kind: req.body.kind,
+                        pattern: req.body.pattern,
                         title: req.body.title,
                         description: req.body.body, 
                         estimatedPriceKr: req.body.estimatedPriceKr, 
@@ -192,6 +186,9 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
             
         } else if (err) {
             throw err;
+        } else {
+            console.log(`Error: Item [Title: ${req.body.title}] already exists`);
+            res.redirect('/admin/order/build?error:Item-already-exists');
         }
     }).clone().catch((err) => { console.log(err)});
 });
