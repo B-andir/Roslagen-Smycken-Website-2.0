@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const { v4 : uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2
 const path = require('path');
 
 const upload = multer({dest: "uploads/"});
@@ -14,12 +15,15 @@ const { url } = require('inspector');
 
 const productModel = require('../models/product');
 const userModel = require('../models/user');
+const { env } = require('process');
 
 require('dotenv').config();
 
 const saltRounds = 16;
 
 mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
+
+cloudinary.config( { secure: true } )
 
 function GetRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -141,9 +145,27 @@ router.post('/build/upload', upload.array('image', 8), (req, res) => {
                 let pathExtname = path.extname(file.originalname).toLowerCase();
 
                 if (pathExtname === ".png" || pathExtname === ".jpg") {
-                    fs.renameSync(tempPath, targetPath);
-                    if (err) handleError(err, res);
-                    imageURLs.push('/images/productImages/' + file.originalname);
+                    await cloudinary.uploader.upload(tempPath, {
+                        resource_type: "image",
+                        public_id: "roslagenSmycken/" + req.body.kind + "/" + req.body.pattern + "/" + req.body.title + "_" + (i + 0),
+                    }, (err, result) => {
+                        if (err) {
+                            console.warn(err)
+                        }
+
+                        if (result) {
+                            fs.unlinkSync(tempPath, err => {
+                                if (err) return handleError(err, res);
+                            });
+
+                            console.log(result.secure_url);
+                            console.log(result.url);
+
+
+                            imageURLs.push(result.secure_url);
+                        }
+
+                    });
                 } else {
                     fs.unlinkSync(tempPath, err => {
                         if (err) return handleError(err, res);
