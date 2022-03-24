@@ -38,6 +38,8 @@ function GenerateLoginCookie(req, user) {
     return jwt.sign({ mongoID: user._id, privateKey: user.privateKey, ip: ip }, process.env.JWT_SECRET);
 }
 
+router.use('/order', (require('./orderhandling.js')));
+
 router.post('/register', async (req, res) => { 
     userModel.findOne({ email: req.body.email }, async (err, user) => {
         if (err) {

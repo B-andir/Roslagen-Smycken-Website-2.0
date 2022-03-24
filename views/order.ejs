@@ -38,7 +38,7 @@
                                         <h3><%- product.title %> </h3>
                                         <h4><%- product.description %> </h4>
                                         <img src="<%- product.images[0] %>">
-                                        <input id="<%- productUID %>Slider" type="range" min="10" max="30" step="0.5" 
+                                        <input id="<%- productUID %>Slider" type="range" min="5" max="40" step="0.5" 
                                             oninput="ShowPriceEstimate(this.value, '<%- productUID %>', '<%- product.estimatedPriceKr %>')" 
                                             onchange="ShowPriceEstimate(this.value, '<%- productUID %>', '<%- product.estimatedPriceKr %>')"
                                             value="20">
@@ -46,7 +46,7 @@
                                         <p class="priceEstimate" >Estimated price: <span id="<%- productUID %>PriceEstimate">-</span>kr</p>
                                         <p class="priceExplained"><%- product.estimatedPriceKr %>kr per cm plus a base price of [...]</p>
                                         <script>ShowPriceEstimate(document.getElementById('<%- productUID %>'+'Slider').value, '<%- productUID %>', '<%- product.estimatedPriceKr %>')</script>
-                                        <button onclick="">Buy</button>
+                                        <button onclick="BuyItem('<%- product._id %>', '<%- productUID %>')">Buy</button>
                                     </div>
                                 <% } %>
                             </div>
