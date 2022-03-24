@@ -109,3 +109,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Image uploads pre-save
+uploads/*

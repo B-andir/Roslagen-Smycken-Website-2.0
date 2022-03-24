@@ -1,3 +1,5 @@
+let logoOriginalImageSource;
+
 function GetCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -20,4 +22,15 @@ function GetCookie(cname) {
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function loading(startLoading) {
+    let logoElement = document.getElementById("rs-image");
+
+    if (startLoading) {
+        logoOriginalImageSource = logoElement.src;
+        logoElement.src = "/images/loading.gif";
+    } else {
+        logoElement.src = logoOriginalImageSource;
+    }
 }
