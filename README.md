@@ -13,3 +13,5 @@ JWT_SECRET=[A random string of characters, suggested at *least* 10 characters lo
 MONGODB_URI=[Your MongoDB URL for using with the website]
 
 CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+
+STRIPE_SECRET=[Stripe secret API key]
