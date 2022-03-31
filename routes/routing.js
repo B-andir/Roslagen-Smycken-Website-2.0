@@ -1,43 +1,33 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
 
-router.get('/', (req, res) => {
-    res.render('index', {title: 'Home'});
+router.get("/", (req, res) => {
+    res.render("index", { title: "Home" });
 });
 
-router.get('/order', async (req, res) => {
+router.get("/order", async (req, res) => {
+    const productModel = require("../models/product");
 
-    mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
-    const productModel = require('../models/product');
+    const productsRaw = await productModel
+        .find({})
+        .sort({ kind: 1, pattern: 1 });
 
-    let productsRaw = await productModel.find({})
+    let products = {};
+    for (let i = 0; i < productsRaw.length; i++) {
+        if (!products[productsRaw[i].kind]) products[productsRaw[i].kind] = [];
 
-    let productsSorted = {}
-    
-    for (var i = 0; i < productsRaw.length; ++i) {
-        var element = productsRaw[i]
-
-        if (productsSorted[element.kind] == undefined) {
-            productsSorted[element.kind] = {};
-            productsSorted[element.kind][element.pattern] = {};
-        } else {
-            if (productsSorted[element.kind][element.pattern] == undefined) {
-                productsSorted[element.kind][element.pattern] = {};
-            }
-        }
-
-        productsSorted[element.kind][element.pattern][element.title] = element;
+        products[productsRaw[i].kind] = [
+            ...products[productsRaw[i].kind],
+            productsRaw[i],
+        ];
     }
 
-    res.render('order', {title: 'Order', products: productsSorted });
+    res.render("order", { title: "Order", products });
 });
 
 // 404 page
-router.get('*',(req, res) => {
-    res
-        .status(404)
-        .render('404', {title: '404'});
+router.get("*", (req, res) => {
+    res.status(404).render("404", { title: "404" });
 });
 
 module.exports = router;
