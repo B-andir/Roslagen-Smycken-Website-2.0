@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+const productModel = require("../models/product");
+const { dispatchMail } = require("../utility/smtp");
+
 router.get("/", (req, res) => {
     res.render("index", { title: "Home" });
 });
 
 router.get("/order", async (req, res) => {
-    const productModel = require("../models/product");
-
     const productsRaw = await productModel
         .find({})
         .sort({ kind: 1, pattern: 1 });
