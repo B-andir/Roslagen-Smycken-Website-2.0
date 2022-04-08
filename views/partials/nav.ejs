@@ -1,24 +1,28 @@
 <nav>
     <div id="navFlexContainer">
-        <div id="logoContainer"><a id="rs-link" href="/">
-            <% if(darkMode == true) { %>
-                <img id= "rs-image" src="/images/LogoGolden.png">
-            <% } else { %>
-                <img id= "rs-image" src="/images/Logo.png">
-            <% } %> 
-        </a></div>
-
-        <div id="navOptions">
-            <%- include('./navOptions.ejs') %>
+        <div id="logoContainer">
+            <a id="rs-link" href="/">
+                <% if(darkMode == true) { %>
+                <img id="rs-image" src="/images/LogoGolden.png" />
+                <% } else { %>
+                <img id="rs-image" src="/images/Logo.png" />
+                <% } %>
+            </a>
         </div>
 
-        <script src="/scripts/toggleDarkMode.js"></script>
-        <img onload="SetDarkMode()" id="darkmodeToggle" onclick="ToggleDarkMode()" src="/images/darkmodeButton.png">
-    </div>
+        <div id="navOptions"><%- include('./navOptions.ejs') %></div>
 
+        <script src="/scripts/toggleDarkMode.js"></script>
+        <img
+            onload="SetDarkMode()"
+            id="darkmodeToggle"
+            onclick="ToggleDarkMode()"
+            src="/images/darkmodeButton.png"
+        />
+    </div>
 </nav>
 
-<%- include('./accountDropdown.ejs') %> 
+<%- include('./accountDropdown.ejs') %>
 
 <div id="backgroundBlur" onclick="HidePopups()"></div>
 
